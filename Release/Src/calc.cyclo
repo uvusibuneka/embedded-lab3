@@ -1,0 +1,10 @@
+../Src/calc.c:10:9:isFirst	1
+../Src/calc.c:14:6:calcReset	1
+../Src/calc.c:22:6:printCalc	1
+../Src/calc.c:41:6:printRes	1
+../Src/calc.c:54:9:getLayout	1
+../Src/calc.c:58:6:pErr	1
+../Src/calc.c:66:6:opErr	1
+../Src/calc.c:70:6:operation	6
+../Src/calc.c:90:6:keyPressed	9
+../Src/calc.c:134:6:introSlides	1
