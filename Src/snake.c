@@ -1,6 +1,7 @@
 #include "snake.h"
 #include "matrix.h"
 #include <stddef.h>
+#include "oled.h"
 
 #define SNAKE_MAX_LENGTH 64U
 
@@ -9,6 +10,20 @@ static uint32_t snake_length = 0U;
 
 static uint32_t dx = 1;
 static uint32_t dy = 0;
+static uint32_t points = 0;
+
+void printRes(void)
+{
+    char str_points[18] = "";
+    itoa(points, str_points, 10);
+
+    oled_Fill(Black);
+    oled_SetCursor(0, 0);
+    oled_WriteString(str_points, Font_7x10, White);
+    oled_UpdateScreen();
+
+    HAL_Delay(3000);
+}
 
 SnakeNode *create_snake(int32_t x, int32_t y, uint32_t length)
 {
@@ -62,12 +77,16 @@ int32_t is_collision(SnakeNode *snake)
     {
         if ((current->x == snake->x) && (current->y == snake->y))
         {
+            points = 0;
+            printRes();
             return 1;
         }
         current = current->next;
     }
-    if (current->x > GAME_WIDTH || current->y > GAME_HEIGHT || current->x < 0 || current->y < 0)
+    if (snake->x >= GAME_WIDTH || snake->y >= GAME_HEIGHT || snake->x <= 0 || snake->y <= 0)
     {
+        points = 0;
+        printRes();
         return 1;
     }
     return 0;
@@ -103,6 +122,8 @@ Food generate_food(int32_t width, int32_t height, SnakeNode *snake)
             if ((current->x == food.x) && (current->y == food.y))
             {
                 collision = 1U; // Collision detected
+                points += 1;
+                printRes();
                 break;
             }
             current = current->next;
